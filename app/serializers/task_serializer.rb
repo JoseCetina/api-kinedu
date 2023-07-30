@@ -1,5 +1,5 @@
 class TaskSerializer < ActiveModel::Serializer
-  attributes :id, :created_at, :updated_at, :title, :description, :user
+  attributes :id, :created_at, :title, :description, :user
 
   def id
     self.object.id.to_s

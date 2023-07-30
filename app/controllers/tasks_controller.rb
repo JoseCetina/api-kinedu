@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-    #before_action :authenticate_user!
+    before_action :authenticate_user!
     before_action :set_task, only: [:show, :update, :destroy]
     
     def index
@@ -11,10 +11,9 @@ class TasksController < ApplicationController
       limit = params[:limit] if params[:limit].present?
       order = params[:order] if params[:order].present?
       direction = params[:direction] if params[:direction].present?
-      sentence_order = order+ ' ' + direction
+      sentence_order = order + ' ' + direction
 
-      #user_tasks = Task.where(user_id: current_user.id).order(sentence_order)
-      user_tasks = Task.all.order(sentence_order)
+      user_tasks = Task.where(user_id: current_user.id).order(sentence_order)
       tasks = user_tasks.page(pages).per(limit)
 
       render json: {tasks: ActiveModel::Serializer::CollectionSerializer.new(tasks)}
@@ -27,15 +26,14 @@ class TasksController < ApplicationController
     def create
       title = task_params[:title]
       description = task_params[:description]
-      user_id = task_params[:user_id]
-      #user_id = current_user.id
+      user_id = current_user.id
 
       task = Task.new(title: title, description: description, user_id: user_id)
 
       if task.save
         render json: {task: task}
       else
-        error_message = task.errors.messages[:title]
+        error_message = task.errors.messages[:title][0]
         render json: {error: error_message}
       end
     end
@@ -43,13 +41,13 @@ class TasksController < ApplicationController
     def update
       title = task_params[:title]
       description = task_params[:description]
-
+      
       task = @task.update(title: title, description: description)
 
       if task
         render json: {task: @task}
       else
-        error_message = @task.errors.messages[:title]
+        error_message = @task.errors.messages[:title][0]
         render json: {error: error_message}
       end
     end
