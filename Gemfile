@@ -45,3 +45,4 @@ gem "devise", "~> 4.9"
 gem 'active_model_serializers', '~> 0.10.10'
 gem 'kaminari'
 gem 'rubocop', require: false
+gem 'rswag'

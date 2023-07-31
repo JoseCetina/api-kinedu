@@ -2,6 +2,7 @@ class TasksController < ApplicationController
     before_action :authenticate_user!
     before_action :set_task, only: [:show, :update, :destroy]
     
+    #GET /tasks
     def index
       pages = 1
       limit = 10
@@ -19,10 +20,12 @@ class TasksController < ApplicationController
       render json: {tasks: ActiveModel::Serializer::CollectionSerializer.new(tasks)}
     end
 
+    #GET /tasks/1
     def show
       render json: {task: @task}
     end
 
+    # POST /tasks
     def create
       title = task_params[:title]
       description = task_params[:description]
@@ -38,6 +41,7 @@ class TasksController < ApplicationController
       end
     end
 
+    # PATCH/PUT /tasks/1
     def update
       title = task_params[:title]
       description = task_params[:description]
@@ -52,6 +56,7 @@ class TasksController < ApplicationController
       end
     end
 
+    # DELETE /tasks/1
     def destroy
       task = @task.delete
 
@@ -59,6 +64,7 @@ class TasksController < ApplicationController
     end
     
     private
+    # Use callbacks to share common setup or constraints between actions.
     def set_task
       begin
         @task = Task.find(params[:id])
@@ -67,7 +73,7 @@ class TasksController < ApplicationController
         render json: {error: 'La tarea no existe'}
       end
     end
-
+    # Only allow a trusted parameter "white list" through.
     def task_params
       task_params = params.require(:task).permit(:title, :description, :user_id)
     end

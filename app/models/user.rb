@@ -1,3 +1,4 @@
+# models/user.rb
 class User < ApplicationRecord
 
   validates_uniqueness_of :email, message: 'Este email ya se encuentra registrado.'

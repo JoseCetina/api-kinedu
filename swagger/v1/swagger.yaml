@@ -1,0 +1,128 @@
+---
+openapi: 3.0.1
+info:
+  title: Api Kinedu
+  description: Esta api se encarga del manejo de las tareas que tiene cada usuario en la applicación.
+  version: 1.0.0
+servers:
+  - url: https://localhost:3000/tasks
+tags:
+  - name: task
+    description: This endpoint manage the user's task.
+    
+paths:
+  /tasks:
+    get:
+      tags:
+      - task
+      summary: returns the user's task in serializable, ready for pagination
+      responses:
+        200:
+          description: OK.
+          content:
+            applicaton/json:
+              schema:
+                $ref: '#/components/schemas/SuccessTaskIndex'
+  
+    post:
+      tags:
+      - task
+      summary: User create a new task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyTaskParams'
+      responses:
+        200:
+          description: OK.
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/SuccessTaskRequest'
+       
+  /tasks/{:id}: 
+    get:
+      tags:
+      - task
+      summary: return a task requested by the user
+      parameters:
+      - $ref: '#/components/parameters/task_id'
+      responses:
+        200:
+          description: OK.
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/SuccessTaskRequest'
+  
+    put:
+      tags:
+      - task
+      summary: User update an own task
+      parameters:
+      - $ref: '#/components/parameters/task_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyTaskParams'
+      responses:
+        200:
+          description: OK.
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/SuccessTaskRequest'
+                
+    delete:
+      tags:
+      - task
+      summary: delete a task requested by the user
+      parameters:
+      - $ref: '#/components/parameters/task_id'
+      responses:
+        200:
+          description: OK.
+          content:
+            application/json:
+              schema: 
+                properties:
+                  message:
+                    type: string
+                    description: Returns the word Eliminado
+      
+components:
+  parameters:
+    task_id:
+      name: :id
+      in: path
+      description: is the task id
+      required: true
+      schema:
+        type: integer
+  
+  schemas:
+    BodyTaskParams:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The task's title
+        description: 
+          type: string
+          description: The task's description
+        
+    SuccessTaskRequest:
+      type: object
+      properties:
+        task:
+          type: object
+          description: Returns all the information about the new or updated task
+          
+    SuccessTaskIndex:
+      type: object
+      properties:
+        tasks:
+          type: object
+          description: Returns the list of the user's tasks, ready for pagination

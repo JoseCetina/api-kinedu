@@ -1,24 +1,16 @@
-# README
+# API KINEDU
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Esta api tiene la funcionalidad de manejar las tareas de los usuarios.
 
-Things you may want to cover:
 
-* Ruby version
+Pasos a seguir:
 
-* System dependencies
+* Clonar la rama principal main.
 
-* Configuration
+* Cambiar dentro de "config/database.yml" los registros usarname y password por los correspondientes de tu base de datos.
 
-* Database creation
+* Ejecutar en la consola "rails db:create" para generar la base de datos.
 
-* Database initialization
+* Ejecutar en la consola "rails db:migrate" para ejecutar las migraciones (Crear tablas y añadir columnas)
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Realizar las pruebas rspec en la consola "bundle exec rspec"
